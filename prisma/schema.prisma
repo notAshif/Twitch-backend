@@ -1,0 +1,206 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id              String   @id @default(cuid())
+  twitchId        String   @unique
+  login           String
+  displayName     String
+  profileImageUrl String
+  email           String?
+  role            String   @default("user")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  accessTokenEnc  String
+  refreshTokenEnc String
+  tokenExpiresAt  DateTime
+  
+  sessions          Session[]
+  pinnedCategories  PinnedCategory[]
+  viewHistory       ViewHistory[]
+  notificationPrefs NotificationPref[]
+  adStats           AdStats[]
+  adAllowlist       AdAllowlist[]
+  followedChannels  Following[]
+  activities        UserActivity[]
+  issues            Issue[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  jti       String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model Following {
+  id               String   @id @default(cuid())
+  userId           String
+  broadcasterId    String
+  broadcasterLogin String
+  broadcasterName  String
+  followedAt       DateTime @default(now())
+  
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, broadcasterId])
+  @@index([userId])
+  @@map("followings")
+}
+
+model Category {
+  id         String   @id  
+  name       String
+  boxArtUrl  String
+  igdbId     String?
+  cachedAt   DateTime @default(now())
+
+  pinnedBy   PinnedCategory[]
+
+  @@map("categories")
+}
+
+model PinnedCategory {
+  id         String   @id @default(cuid())
+  userId     String
+  categoryId String
+  pinnedAt   DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryId])
+  @@index([userId])
+  @@map("pinned_categories")
+}
+
+model ViewHistory {
+  id           String   @id @default(cuid())
+  userId       String
+  streamId     String
+  channelName  String
+  channelLogin String
+  gameName     String
+  title        String
+  thumbnailUrl String
+  watchedAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, watchedAt(sort: Desc)])
+  @@map("view_history")
+}
+
+model NotificationPref {
+  id               String  @id @default(cuid())
+  userId           String
+  broadcasterId    String
+  broadcasterLogin String
+  enabled          Boolean @default(true)
+
+  user             User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, broadcasterId])
+  @@index([userId])
+  @@map("notification_prefs")
+}
+
+model AdRule {
+  id        String   @id @default(cuid())
+  name      String
+  pattern   String
+  type      String   @default("css")
+  category  String   @default("custom")
+  isActive  Boolean  @default(true)
+  priority  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ad_rules")
+}
+
+model AdAllowlist {
+  id         String   @id @default(cuid())
+  userId     String?
+  targetId   String
+  targetType String   @default("channel")
+  reason     String?
+  createdAt  DateTime @default(now())
+
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("ad_allowlist")
+}
+
+model AdStats {
+  id             String   @id @default(cuid())
+  userId         String
+  date           DateTime @default(now())
+  adsBlocked     Int      @default(0)
+  domainsBlocked String   @default("[]")
+
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId])
+  @@map("ad_stats")
+}
+
+model RuleSync {
+  id         String   @id @default(cuid())
+  source     String
+  lastSync   DateTime @default(now())
+  rulesCount Int      @default(0)
+  status     String   @default("success")
+
+  @@map("rule_syncs")
+}
+
+model UserActivity {
+  id           String   @id @default(cuid())
+  userId       String
+  activityType String
+  metadata     String   @default("{}")
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([activityType])
+  @@map("user_activities")
+}
+
+model Issue {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  description String
+  severity    String   @default("medium")
+  status      String   @default("open")
+  githubIssueUrl String?
+  githubIssueId   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@map("issues")
+}

@@ -1,0 +1,34 @@
+{
+  "name": "backend",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun --bun run src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "tsc --noEmit",
+    "db:migrate": "npx prisma migrate dev",
+    "db:generate": "npx prisma generate",
+    "db:studio": "npx prisma studio"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "prisma": "^7.6.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "@prisma/adapter-libsql": "^7.6.0",
+    "@prisma/client": "^7.6.0",
+    "@types/cookie-parser": "^1.4.10",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.6.1",
+    "express": "^5.2.1",
+    "jose": "^6.2.2",
+    "zod": "^4.3.6"
+  }
+}
