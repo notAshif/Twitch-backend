@@ -46,8 +46,8 @@ router.get('/twitch', (req: Request, res: Response) => {
 router.get('/twitch/callback', async (req: Request, res: Response) => {
   try {
     const { code, state } = req.query;
-    const stateStr = typeof state === 'string' ? state : Array.isArray(state) ? String(state[0]) : undefined;
-    const codeStr = typeof code === 'string' ? code : Array.isArray(code) ? String(code[0]) : undefined;
+    const stateStr = typeof state === 'string' ? state : undefined;
+    const codeStr = typeof code === 'string' ? code : undefined;
 
     if (!stateStr) {
       return res.status(400).json({ error: 'Missing state parameter' });
