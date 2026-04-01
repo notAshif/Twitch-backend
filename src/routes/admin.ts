@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from 'express';
-import prisma from '../db/prisma.ts';
-import { authenticate, requireAdmin } from '../middleware/auth.ts';
+import prisma from '../db/prisma';
+import { authenticate, requireAdmin } from '../middleware/auth';
 
 const router = Router();
 

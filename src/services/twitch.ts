@@ -1,4 +1,4 @@
-import { config } from '../config/env.ts';
+import { config } from '../config/env';
 import type {
   TwitchTokenResponse,
   TwitchUser,

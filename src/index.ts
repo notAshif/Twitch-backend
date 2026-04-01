@@ -1,6 +1,6 @@
-import { createApp } from './app.ts';
-import { config } from './config/env.ts';
-import { prisma } from './db/prisma.ts';
+import { createApp } from './app';
+import { config } from './config/env';
+import { prisma } from './db/prisma';
 
 async function main() {
   try {

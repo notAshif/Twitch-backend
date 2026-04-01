@@ -1,8 +1,8 @@
 import { Router, type Request, type Response } from 'express';
-import prisma from '../db/prisma.ts';
-import { twitchService } from '../services/twitch.ts';
-import { authenticate } from '../middleware/auth.ts';
-import { config } from '../config/env.ts';
+import prisma from '../db/prisma';
+import { twitchService } from '../services/twitch';
+import { authenticate } from '../middleware/auth';
+import { config } from '../config/env';
 
 const router = Router();
 
