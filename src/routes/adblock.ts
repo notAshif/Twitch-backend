@@ -32,7 +32,9 @@ router.get('/manifest/:channel', authenticate, async (req: Request, res: Respons
     let masterPlaylist = await resp.text();
 
 
-    const backendBase = `${req.protocol}://${req.get('host')}`;
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const host = req.headers['x-forwarded-host'] || req.get('host');
+    const backendBase = `${protocol}://${host}`;
     masterPlaylist = masterPlaylist
       .split('\n')
       .map((line: string) => {

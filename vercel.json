@@ -2,11 +2,24 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "/api/index.ts"
+    },
+    {
+      "source": "/auth/(.*)",
+      "destination": "/api/index.ts"
+    },
+    {
+      "source": "/health",
+      "destination": "/api/index.ts"
+    },
+    {
       "source": "/(.*)",
-      "destination": "/api"
+      "destination": "/api/index.ts"
     }
   ],
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "PRISMA_GENERATE_DATAPROXY": "true"
   }
 }

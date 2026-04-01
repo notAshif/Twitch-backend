@@ -1,7 +1,10 @@
 import 'dotenv/config';
 
+const isVercel = !!process.env.VERCEL_URL;
+const vercelBase = isVercel ? `https://${process.env.VERCEL_URL}` : null;
+
 export const config = {
-  appUrl: process.env.APP_URL || 'http://localhost:5173',
+  appUrl: process.env.APP_URL || vercelBase || 'http://localhost:5173',
   port: parseInt(process.env.PORT || '3000'),
   nodeEnv: process.env.NODE_ENV || 'development',
   
@@ -13,7 +16,8 @@ export const config = {
   twitch: {
     clientId: process.env.TWITCH_CLIENT_ID || '',
     clientSecret: process.env.TWITCH_CLIENT_SECRET || '',
-    redirectUri: process.env.TWITCH_REDIRECT_URI || 'http://localhost:3000/auth/twitch/callback',
+    redirectUri: process.env.TWITCH_REDIRECT_URI || 
+                 (vercelBase ? `${vercelBase}/auth/twitch/callback` : 'http://localhost:3000/auth/twitch/callback'),
   },
   
   github: {
