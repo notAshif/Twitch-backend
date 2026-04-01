@@ -28,6 +28,10 @@ export function createApp(): Express {
     next();
   });
 
+  app.get('/', (req, res) => {
+    res.json({ message: 'Twitch Ads Blocker API is running', health: '/health' });
+  });
+
   app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
   });

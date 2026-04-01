@@ -1,6 +1,6 @@
 import { createApp } from './app.ts';
 import { config } from './config/env.ts';
-import {prisma} from './db/prisma.ts';
+import { prisma } from './db/prisma.ts';
 
 async function main() {
   try {
@@ -12,8 +12,6 @@ async function main() {
     app.listen(config.port, () => {
       console.log(`Server running on http://localhost:${config.port}`);
       console.log(`Environment: ${config.nodeEnv}`);
-      // server message in showing in vercel 
-      return Response.json({ message: `Server running on http://localhost:${config.port}` });
     });
   } catch (error) {
     console.error('Failed to start server:', error);
