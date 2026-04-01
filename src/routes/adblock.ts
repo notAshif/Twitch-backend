@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from 'express';
-import { authenticate } from '../middleware/auth';
-import { twitchService } from '../services/twitch';
+import { authenticate } from '../middleware/auth.js';
+import { twitchService } from '../services/twitch.js';
 
 const router = Router();
 
@@ -31,7 +31,7 @@ router.get('/manifest/:channel', authenticate, async (req: Request, res: Respons
 
     let masterPlaylist = await resp.text();
 
-    
+
     const backendBase = `${req.protocol}://${req.get('host')}`;
     masterPlaylist = masterPlaylist
       .split('\n')
@@ -77,7 +77,7 @@ router.get('/playlist/:channel', async (req: Request, res: Response) => {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i] as string;
 
-      
+
       if (
         line.includes('#EXT-X-DATERANGE') && (
           line.includes('stitched-ad') ||
@@ -89,7 +89,7 @@ router.get('/playlist/:channel', async (req: Request, res: Response) => {
         continue;
       }
 
-      
+
       if (line.includes('#EXT-X-CUE-OUT') || line.includes('#EXT-X-SCTE35-OUT')) {
         skipSegment = true;
         adsFiltered++;
@@ -100,7 +100,7 @@ router.get('/playlist/:channel', async (req: Request, res: Response) => {
         continue;
       }
 
-      
+
       if (
         line.includes('Amazon') ||
         line.includes('stitched-ad') ||
@@ -116,9 +116,9 @@ router.get('/playlist/:channel', async (req: Request, res: Response) => {
         continue;
       }
 
-      
+
       if (skipSegment) {
-       
+
         if (line.startsWith('#EXTINF') || (!line.startsWith('#') && line.trim().length > 0)) {
           continue;
         }
@@ -141,7 +141,7 @@ router.get('/playlist/:channel', async (req: Request, res: Response) => {
 router.get('/proxy/:channel', authenticate, async (req: Request, res: Response) => {
   const { channel } = req.params as { channel: string };
   try {
-    
+
     await twitchService.getStreamMetadata(channel);
     res.json({
       status: 'Protected',

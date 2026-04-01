@@ -1,9 +1,9 @@
 import { Router, type Request, type Response } from 'express';
 import * as crypto from 'crypto';
-import prisma from '../db/prisma';
-import { twitchService } from '../services/twitch';
-import { authenticate } from '../middleware/auth';
-import { config } from '../config/env';
+import prisma from '../db/prisma.js';
+import { twitchService } from '../services/twitch.js';
+import { authenticate } from '../middleware/auth.js';
+import { config } from '../config/env.js';
 
 const router = Router();
 

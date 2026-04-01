@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import * as jose from 'jose';
-import { prisma } from '../db/prisma';
-import { config } from '../config/env';
+import { prisma } from '../db/prisma.js';
+import { config } from '../config/env.js';
 
 export async function authenticate(req: Request, res: Response, next: NextFunction) {
   try {
@@ -11,7 +11,7 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
     }
 
     const token = authHeader.substring(7);
-    
+
     const secret = new TextEncoder().encode(config.jwt.secret);
     const { payload } = await jose.jwtVerify(token, secret);
 

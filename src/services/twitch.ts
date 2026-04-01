@@ -1,4 +1,4 @@
-import { config } from '../config/env';
+import { config } from '../config/env.js';
 import type {
   TwitchTokenResponse,
   TwitchUser,
@@ -6,7 +6,7 @@ import type {
   TwitchStream,
   TwitchCategory,
   TwitchSearchChannel,
-} from '../types/twitch';
+} from '../types/twitch.js';
 
 const TWITCH_API_BASE = 'https://api.twitch.tv/helix';
 
@@ -88,7 +88,7 @@ export class TwitchService {
 
   async getUsers(accessToken: string, userIds: string[]): Promise<TwitchUser[]> {
     if (userIds.length === 0) return [];
-    
+
     // Split into chunks of 100 which is Twitch's limit
     const chunks = [];
     for (let i = 0; i < userIds.length; i += 100) {
@@ -99,7 +99,7 @@ export class TwitchService {
     for (const chunk of chunks) {
       const params = new URLSearchParams();
       chunk.forEach(id => params.append('id', id));
-      
+
       const response = await fetch(`${TWITCH_API_BASE}/users?${params.toString()}`, {
         headers: {
           'Authorization': `Bearer ${accessToken}`,
@@ -112,7 +112,7 @@ export class TwitchService {
         allUsers.push(...data.data);
       }
     }
-    
+
     return allUsers;
   }
 
@@ -137,16 +137,16 @@ export class TwitchService {
   }
 
   async getLiveFollowedStreamsWithUsers(accessToken: string, userId: string): Promise<any[]> {
-     const streams = await this.getLiveFollowedStreams(accessToken, userId);
-     if (streams.length === 0) return [];
-     
-     const userIds = streams.map(s => s.user_id);
-     const users = await this.getUsers(accessToken, userIds);
-     
-     return streams.map(stream => ({
-       ...stream,
-       user_profile_image_url: users.find(u => u.id === stream.user_id)?.profile_image_url || null
-     }));
+    const streams = await this.getLiveFollowedStreams(accessToken, userId);
+    if (streams.length === 0) return [];
+
+    const userIds = streams.map(s => s.user_id);
+    const users = await this.getUsers(accessToken, userIds);
+
+    return streams.map(stream => ({
+      ...stream,
+      user_profile_image_url: users.find(u => u.id === stream.user_id)?.profile_image_url || null
+    }));
   }
 
   async getStreamMetadata(channelName: string): Promise<{ sig: string; token: string }> {
@@ -180,7 +180,7 @@ export class TwitchService {
 
     const data = await response.json() as any;
     const tokenData = data.data.streamPlaybackAccessToken;
-    
+
     if (!tokenData) {
       throw new Error('Stream not found or offline');
     }

@@ -1,14 +1,14 @@
 import express, { type Express } from 'express';
 import cookieParser from 'cookie-parser';
-import { errorHandler } from './middleware/errorHandler';
-import authRoutes from './routes/auth';
-import usersRoutes from './routes/users';
-import followingRoutes from './routes/following';
-import categoriesRoutes from './routes/categories';
-import historyRoutes from './routes/history';
-import adminRoutes from './routes/admin';
-import issuesRoutes from './routes/issues';
-import adblockRoutes from './routes/adblock';
+import { errorHandler } from './middleware/errorHandler.js';
+import authRoutes from './routes/auth.js';
+import usersRoutes from './routes/users.js';
+import followingRoutes from './routes/following.js';
+import categoriesRoutes from './routes/categories.js';
+import historyRoutes from './routes/history.js';
+import adminRoutes from './routes/admin.js';
+import issuesRoutes from './routes/issues.js';
+import adblockRoutes from './routes/adblock.js';
 
 export function createApp(): Express {
   const app = express();
