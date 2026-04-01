@@ -1,4 +1,5 @@
 import { Router, type Request, type Response } from 'express';
+import * as crypto from 'crypto';
 import prisma from '../db/prisma.ts';
 import { twitchService } from '../services/twitch.ts';
 import { authenticate } from '../middleware/auth.ts';
@@ -7,10 +8,10 @@ import { config } from '../config/env.ts';
 const router = Router();
 
 function decryptToken(encrypted: string): string {
-  const crypto = require('crypto');
   const key = Buffer.from(config.encryption.key.padEnd(32, '0').slice(0, 32));
   const [ivHex, encryptedData] = encrypted.split(':');
-  const iv = Buffer.from(ivHex!, 'hex');
+  if (!ivHex || !encryptedData) throw new Error('Invalid encrypted token format');
+  const iv = Buffer.from(ivHex, 'hex');
   const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
   let decrypted = decipher.update(encryptedData!, 'hex', 'utf8');
   decrypted += decipher.final('utf8');
