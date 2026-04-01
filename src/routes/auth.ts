@@ -1,10 +1,10 @@
 import { Router, type Request, type Response } from 'express';
 import * as jose from 'jose';
 import * as crypto from 'crypto';
-import prisma from '../db/prisma';
-import { twitchService } from '../services/twitch';
-import { config } from '../config/env';
-import { authenticate } from '../middleware/auth';
+import prisma from '../db/prisma.js';
+import { twitchService } from '../services/twitch.js';
+import { config } from '../config/env.js';
+import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
 const stateStore = new Map<string, { expires: number }>();

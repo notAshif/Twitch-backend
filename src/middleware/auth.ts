@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import * as jose from 'jose';
-import { prisma } from '../db/prisma';
-import { config } from '../config/env';
+import { prisma } from '../db/prisma.js';
+import { config } from '../config/env.js';
 
 export async function authenticate(req: Request, res: Response, next: NextFunction) {
   try {
