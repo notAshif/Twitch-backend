@@ -1,6 +1,6 @@
-import { createApp } from './app.js';
-import { config } from './config/env.js';
-import { prisma } from './db/prisma.js';
+import { createApp } from './app';
+import { config } from './config/env';
+import { prisma } from './db/prisma';
 
 async function main() {
   try {

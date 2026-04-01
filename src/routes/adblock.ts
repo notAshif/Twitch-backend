@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from 'express';
-import { authenticate } from '../middleware/auth.js';
-import { twitchService } from '../services/twitch.js';
+import { authenticate } from '../middleware/auth';
+import { twitchService } from '../services/twitch';
 
 const router = Router();
 

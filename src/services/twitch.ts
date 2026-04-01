@@ -1,4 +1,4 @@
-import { config } from '../config/env.js';
+import { config } from '../config/env';
 import type {
   TwitchTokenResponse,
   TwitchUser,
@@ -6,7 +6,7 @@ import type {
   TwitchStream,
   TwitchCategory,
   TwitchSearchChannel,
-} from '../types/twitch.js';
+} from '../types/twitch';
 
 const TWITCH_API_BASE = 'https://api.twitch.tv/helix';
 

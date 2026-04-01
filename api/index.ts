@@ -1,5 +1,5 @@
-import app from '../src/app.js';
+import app from "../src/app";
 
-console.log('[DIAGNOSTIC] Initializing serverless function...');
+console.log("[Vercel] Serverless function initialized");
 
 export default app;
