@@ -21,7 +21,7 @@ export function createApp(): Express {
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true');
-    
+
     if (req.method === 'OPTIONS') {
       return res.sendStatus(200);
     }
@@ -49,3 +49,6 @@ export function createApp(): Express {
 
   return app;
 }
+
+const app = createApp();
+export default app;

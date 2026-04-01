@@ -5,8 +5,11 @@
       "source": "/(.*)",
       "destination": "/api"
     }
-  ],
-  "env": {
+  ],  "functions": {
+    "api/**/*.ts": {
+      "runtime": "vercel-nodejs@4.0.0"
+    }
+  },  "env": {
     "NODE_ENV": "production"
   }
 }
