@@ -185,7 +185,7 @@ router.get('/pinned/list', authenticate, async (req: Request, res: Response) => 
       orderBy: { pinnedAt: 'desc' },
     });
 
-    res.json({ pinned: pinned.map(p => p.category) });
+    res.json({ pinned: pinned.map((p: any) => p.category) });
   } catch (error) {
     console.error('Get pinned error:', error);
     res.status(500).json({ error: 'Failed to get pinned categories' });
